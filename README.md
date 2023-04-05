@@ -24,7 +24,7 @@ the execution of the parameters with optional parameters.
 import phraseapp.phraseapp
 
 apply {
-    plugin("com.decathlon.phraseapp")
+    plugin("io.github.greencode-cz.phraseapp")
 }
 
 phraseapp {
@@ -38,7 +38,7 @@ phraseapp {
 **Groovy**
 
 ```groovy
-apply plugin: 'com.decathlon.phraseapp'
+apply plugin: 'io.github.greencode-cz.phraseapp'
 
 phraseapp {
     // Authentication token used to communicate with PhraseApp.
@@ -156,7 +156,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.decathlon.phrase:phrase-gradle-plugin:<last-version>")
+        classpath("io.github.greencode-cz:phrase-gradle-plugin:<last-version>")
     }
 }
 ```
@@ -179,4 +179,4 @@ Snapshots of the development version are available in [Sonatype's `snapshots` re
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[snap]: https://oss.sonatype.org/content/repositories/snapshots/com/decathlon/phrase/
+[snap]: https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/greencode-cz/phraseapp/
