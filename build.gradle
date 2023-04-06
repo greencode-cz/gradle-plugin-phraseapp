@@ -19,8 +19,6 @@ buildscript {
             'junit'        : '4.12',
             'mockito'      : '2.1.0',
             'assertk'      : '0.9',
-            'jacoco'       : '0.8.6',
-            'sonarqube'    : '2.8'
     ]
 
     ext.deps = [
@@ -49,45 +47,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${versions.sonarqube}"
-        classpath "org.jacoco:org.jacoco.core:${versions.jacoco}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "com.vanniktech:gradle-maven-publish-plugin:${versions.maven}"
-    }
-}
-
-apply plugin: 'jacoco'
-apply plugin: "org.sonarqube"
-
-tasks.register("codeCoverageReport", JacocoReport) {
-    subprojects { subproject ->
-        subproject.plugins.withType(JacocoPlugin).configureEach {
-            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).configureEach { testTask ->
-                sourceSets subproject.sourceSets.main
-                executionData(testTask)
-            }
-
-            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).forEach {
-                rootProject.tasks.codeCoverageReport.dependsOn(it)
-            }
-        }
-    }
-
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-}
-
-sonarqube {
-    properties {
-        property("sonar.projectKey", "Decathlon_gradle-plugin-phraseapp")
-        property("sonar.organization", "decathlon")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.pullrequest.provider", "GitHub")
-        property("sonar.pullrequest.github.repository", "Decathlon/gradle-plugin-phraseapp")
-        property("sonar.coverage.jacoco.xmlReportPaths", "$rootDir/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml")
-        property("sonar.login", System.getenv("SONAR_TOKEN"))
-        property("sonar.debug", true)
     }
 }
