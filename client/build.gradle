@@ -1,6 +1,5 @@
 plugins {
     id "kotlin"
-    id "jacoco"
     id "com.vanniktech.maven.publish"
 }
 
@@ -43,8 +42,4 @@ jar {
 
 artifacts {
     archives jar
-}
-
-jacoco {
-    toolVersion = '0.8.6'
 }
