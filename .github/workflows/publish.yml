@@ -1,8 +1,14 @@
 name: Publish to Maven Central
+
+#on:
+#  push:
+#    tags:
+#      - 'release/*'
 on:
   push:
-    tags:
-      - 'release/*'
+    branches:
+      - publish-test
+
 jobs:
   publish:
     runs-on: ubuntu-latest
