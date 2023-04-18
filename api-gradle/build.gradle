@@ -24,7 +24,7 @@ targetCompatibility = '11'
 gradlePlugin {
     plugins {
         phrasePlugin {
-            id = "io.github.greencode-cz.phraseapp"
+            id = "cz.greencode.phraseapp"
             implementationClass = "phraseapp.PhraseAppPlugin"
         }
     }
