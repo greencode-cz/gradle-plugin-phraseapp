@@ -18,10 +18,11 @@ class ReducerHelper(val platform: Platform) {
     fun reduceKeysForAllStringsFilesAndForAllLocales(
         strings: Map<String, ResourceTranslation>,
         remoteStrings: Map<String, LocaleContent>,
-        ignoreComments: Boolean
+        ignoreComments: Boolean,
+        dontDeleteKeys: Boolean
     ): Map<String, Map<ResFolderType, Resource>> =
         strings.map {
-            it.key to reduceKeysForAllLocales(it.value, remoteStrings, ignoreComments)
+            it.key to reduceKeysForAllLocales(it.value, remoteStrings, ignoreComments, dontDeleteKeys)
         }.toMap()
 
     /**
@@ -31,7 +32,8 @@ class ReducerHelper(val platform: Platform) {
     private fun reduceKeysForAllLocales(
         stringsFile: ResourceTranslation,
         remoteStrings: Map<String, LocaleContent>,
-        ignoreComments: Boolean
+        ignoreComments: Boolean,
+        dontDeleteKeys: Boolean
     ): Map<ResFolderType, Resource> {
         val keys: Set<String> = stringsFile.strings.map { it.key }.union(stringsFile.plurals.map { it.key })
         return remoteStrings.map {
@@ -39,7 +41,18 @@ class ReducerHelper(val platform: Platform) {
             else if (it.key.split("-").size > 1) LocaleType(it.key.split("-")[0], it.key.split("-")[1])
             else LanguageType(it.key)
             val resource = it.value.content.parse(platform.format, ignoreComments)
-            return@map type to reduceKeys(keys, resource)
+
+            val reducedKeys = reduceKeys(keys, resource)
+            if (dontDeleteKeys && it.value.isDefault) {
+                val missingKeys = stringsFile.keys.minus(reducedKeys.strings.map { it.key }.toSet())
+                return@map type to reducedKeys.copy(
+                    strings = stringsFile.strings.filter { it.key in missingKeys }
+                        .union(stringsFile.plurals.filter { it.key in missingKeys })
+                        .union(reducedKeys.strings)
+                        .toList()
+                )
+            }
+            return@map type to reducedKeys
         }.toMap()
     }
 

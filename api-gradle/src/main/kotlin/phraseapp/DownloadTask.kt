@@ -51,12 +51,16 @@ abstract class DownloadTask : DefaultTask() {
     @get:Input
     abstract val allowedLocaleCodes: ListProperty<String>
 
+    @get:Input
+    abstract val dontDeleteKeys: Property<Boolean>
+
     init {
         overrideDefaultFile.convention(false)
         exceptions.convention(emptyMap())
         placeholder.convention(false)
         ignoreComments.convention(false)
         allowedLocaleCodes.convention(emptyList())
+        dontDeleteKeys.convention(false)
     }
 
     @TaskAction
@@ -77,7 +81,8 @@ abstract class DownloadTask : DefaultTask() {
                     placeholder.get(),
                     localeNameRegex.get(),
                     ignoreComments.get(),
-                    allowedLocaleCodes.get()
+                    allowedLocaleCodes.get(),
+                    dontDeleteKeys.get()
                 )
             logger.info("All resources have been printed!")
         } catch (error: Throwable) {
