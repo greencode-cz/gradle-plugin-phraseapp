@@ -93,6 +93,11 @@ abstract class PhraseappPluginExtension {
      * For example: ['cs-CZ', 'fr-FR', 'de-DE']
      */
     abstract val allowedLocaleCodes: ListProperty<String>
+    /**
+     * Do not remove keys in the default locale that are not defined in the PhraseApp during the download task.
+     * By default false.
+     */
+    abstract val dontDeleteKeys: Property<Boolean>
 
     init {
         resFolder.convention("")
@@ -106,5 +111,6 @@ abstract class PhraseappPluginExtension {
         localeNameRegex.convention(DEFAULT_REGEX)
         ignoreComments.convention(DEFAULT_IGNORE_COMMENTS)
         allowedLocaleCodes.convention(DEFAULT_ALLOWED_LOCALE_CODES)
+        dontDeleteKeys.convention(DEFAULT_DONT_DELETE_KEYS)
     }
 }

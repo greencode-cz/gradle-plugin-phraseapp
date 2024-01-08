@@ -27,7 +27,8 @@ class Downloader(
         placeholder: Boolean = DEFAULT_PLACEHOLDER,
         localeNameRegex: String = DEFAULT_REGEX,
         ignoreComments: Boolean = DEFAULT_IGNORE_COMMENTS,
-        allowedLocaleCodes: List<String> = DEFAULT_ALLOWED_LOCALE_CODES
+        allowedLocaleCodes: List<String> = DEFAULT_ALLOWED_LOCALE_CODES,
+        dontDeleteKeys: Boolean = DEFAULT_DONT_DELETE_KEYS,
     ) = coroutineScope {
         val strings = localHelper.getStringsFileByResFolder(resFolders)
         val locales = network.downloadAllLocales(
@@ -37,7 +38,12 @@ class Downloader(
             localeNameRegex,
             allowedLocaleCodes
         )
-        val resources = reducerHelper.reduceKeysForAllStringsFilesAndForAllLocales(strings, locales, ignoreComments)
+        val resources = reducerHelper.reduceKeysForAllStringsFilesAndForAllLocales(
+            strings,
+            locales,
+            ignoreComments,
+            dontDeleteKeys
+        )
         printerHelper.printResources(resources)
         printerHelper.printLocales(getTypes(resources))
         return@coroutineScope resources

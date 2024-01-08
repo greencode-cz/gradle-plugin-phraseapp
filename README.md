@@ -122,6 +122,10 @@ phraseapp {
     // If you want to import only some locales during the download task. Skip param to fetch all locales.
     // For example: ['cs-CZ', 'fr-FR', 'de-DE']
     allowedLocaleCodes.set(listOf("<locale_code>"))
+
+    // Do not remove keys in the default locale that are not defined in the PhraseApp during the download task.
+    // By default false.
+    dontDeleteKeys.set(false)
 }
 ```
 
@@ -159,6 +163,10 @@ phraseapp {
     // If you want to import only some locales during the download task. Skip param to fetch all locales.
     // For example: ['cs-CZ', 'fr-FR', 'de-DE']
     allowedLocaleCodes = ["<locale_code>"]
+
+    // Do not remove keys in the default locale that are not defined in the PhraseApp during the download task.
+    // By default false.
+    dontDeleteKeys = false
 }
 ```
 
